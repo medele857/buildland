@@ -336,13 +336,13 @@ nav{animation:navIn .6s ease both}
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo" onclick="showPage('main');return false;">БилдЛэнд</a>
+  <a href="#" class="nav-logo" onclick="showPage('main');return false;" style="cursor:none">БилдЛэнд</a>
   <ul class="nav-links">
-    <li><a href="#about" onclick="showPage('main')">О нас</a></li>
+    <li><a href="#" onclick="showPage('main','about');return false;">О нас</a></li>
     <li><a href="#" onclick="showPage('news');return false;">Новости</a></li>
-    <li><a href="#gallery" onclick="showPage('main')">Галерея</a></li>
+    <li><a href="#" onclick="showPage('main','gallery');return false;">Галерея</a></li>
     <li><a href="#" onclick="showPage('medals');return false;">Медали</a></li>
-    <li><a href="#donate" onclick="showPage('main')">Донат</a></li>
+    <li><a href="#" onclick="showPage('main','donate');return false;">Донат</a></li>
   </ul>
   
   <div class="nav-social">
@@ -522,7 +522,7 @@ nav{animation:navIn .6s ease both}
 <script>
 // ── PAGE TRANSITIONS ──
 const pages = {'main':'main-page','news':'news-page','medals':'medals-page'};
-function showPage(p) {
+function showPage(p, anchor) {
   Object.values(pages).forEach(id => {
     const el = document.getElementById(id);
     el.classList.remove('in');
@@ -532,8 +532,14 @@ function showPage(p) {
   if(!target) return;
   target.style.display = 'block';
   requestAnimationFrame(()=>requestAnimationFrame(()=>target.classList.add('in')));
-  window.scrollTo(0,0);
-  // re-run reveal for new page
+  if(anchor) {
+    setTimeout(()=>{
+      const el = document.getElementById(anchor);
+      if(el) el.scrollIntoView({behavior:'smooth'});
+    }, 50);
+  } else {
+    window.scrollTo(0,0);
+  }
   setTimeout(()=>{
     target.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger,.section-header').forEach(el=>obs.observe(el));
   },50);
