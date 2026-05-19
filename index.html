@@ -5,6 +5,34 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>БилдЛэнд</title>
 <link rel="icon" type="image/png" href="pack.png">
+<script>
+const pages = {'main':'main-page','news':'news-page','medals':'medals-page'};
+function showPage(p, anchor) {
+  Object.values(pages).forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.classList.remove('in');
+    el.style.display = 'none';
+  });
+  const target = document.getElementById(pages[p]);
+  if(!target) return;
+  target.style.display = 'block';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>target.classList.add('in')));
+  if(anchor) {
+    setTimeout(()=>{
+      const el = document.getElementById(anchor);
+      if(el) el.scrollIntoView({behavior:'smooth'});
+    }, 50);
+  } else {
+    window.scrollTo(0,0);
+  }
+  setTimeout(()=>{
+    if(typeof obs !== 'undefined') {
+      target.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger,.section-header').forEach(el=>obs.observe(el));
+    }
+  },50);
+}
+</script>
 <style>
 @font-face{font-family:'Minecraft';src:url('Minecraft.ttf') format('truetype')}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -522,29 +550,6 @@ nav{animation:navIn .6s ease both}
 
 <script>
 // ── PAGE TRANSITIONS ──
-const pages = {'main':'main-page','news':'news-page','medals':'medals-page'};
-function showPage(p, anchor) {
-  Object.values(pages).forEach(id => {
-    const el = document.getElementById(id);
-    el.classList.remove('in');
-    el.style.display = 'none';
-  });
-  const target = document.getElementById(pages[p]);
-  if(!target) return;
-  target.style.display = 'block';
-  requestAnimationFrame(()=>requestAnimationFrame(()=>target.classList.add('in')));
-  if(anchor) {
-    setTimeout(()=>{
-      const el = document.getElementById(anchor);
-      if(el) el.scrollIntoView({behavior:'smooth'});
-    }, 50);
-  } else {
-    window.scrollTo(0,0);
-  }
-  setTimeout(()=>{
-    target.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger,.section-header').forEach(el=>obs.observe(el));
-  },50);
-}
 
 // ── SCROLL REVEAL ──
 const obs = new IntersectionObserver((entries)=>{
