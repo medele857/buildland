@@ -318,6 +318,59 @@ footer{
   letter-spacing:2px;line-height:2;
 }
 
+/* READ MORE BUTTON */
+.read-more-btn{
+  margin-top:14px;padding:9px 20px;
+  background:transparent;color:var(--blue);
+  font-family:'Minecraft',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid var(--blue);cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:color .3s,border-color .3s;
+}
+.read-more-btn::before{
+  content:'';position:absolute;inset:0;background:var(--blue);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:0;
+}
+.read-more-btn:hover::before{transform:scaleX(1)}
+.read-more-btn:hover{color:#000}
+.read-more-btn span{position:relative;z-index:1}
+
+/* MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:9000;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;padding:24px;
+}
+.modal-overlay.open{display:flex}
+.modal-box{
+  background:var(--bg3);border:1px solid var(--border2);border-top:2px solid var(--blue);
+  max-width:760px;width:100%;max-height:85vh;
+  overflow-y:auto;position:relative;
+  animation:modalIn .3s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+.modal-header{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+  padding:28px 32px 20px;border-bottom:1px solid var(--border2);
+  position:sticky;top:0;background:var(--bg3);z-index:1;
+}
+.modal-title{font-family:'Minecraft',monospace;font-size:16px;color:var(--white);letter-spacing:1px;line-height:1.4}
+.modal-close{
+  background:transparent;border:1px solid var(--border2);color:var(--gray);
+  font-family:'Minecraft',monospace;font-size:16px;
+  width:36px;height:36px;flex-shrink:0;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:color .2s,border-color .2s;
+}
+.modal-close:hover{color:var(--white);border-color:var(--gray)}
+.modal-img{width:100%;max-height:300px;object-fit:cover;display:block}
+.modal-body{padding:28px 32px;font-size:11px;color:var(--gray);line-height:2.4;letter-spacing:1px}
+.modal-body p{margin-bottom:16px}
+.modal-body strong{color:var(--white)}
+.modal-body em{color:var(--gray2);font-style:italic}
+.modal-date{padding:0 32px 24px;font-size:9px;color:var(--blue2);letter-spacing:3px}
+
 /* SCROLL REVEAL */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:none}
@@ -348,6 +401,54 @@ footer{
 nav{animation:navIn .6s ease both}
 .section-header.visible .section-tag{animation:tagSlide .5s ease both}
 .section-header.visible .section-title{animation:heroSubIn .6s .1s ease both}
+
+/* MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:9000;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;padding:24px;
+}
+.modal-overlay.open{display:flex}
+.modal-box{
+  background:var(--bg3);border:1px solid var(--border2);border-top:2px solid var(--blue);
+  max-width:760px;width:100%;max-height:85vh;overflow-y:auto;
+  position:relative;animation:modalIn .3s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+.modal-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-bottom:1px solid var(--border2)}
+.modal-content{padding:32px}
+.modal-date{font-size:9px;color:var(--blue2);letter-spacing:3px;margin-bottom:12px}
+.modal-title{font-family:'Minecraft',monospace;font-size:clamp(16px,3vw,24px);color:var(--white);letter-spacing:2px;margin-bottom:20px;line-height:1.4}
+.modal-text{font-size:11px;color:var(--gray);line-height:2.4;letter-spacing:0.5px}
+.modal-text p{margin-bottom:14px}
+.modal-text strong{color:var(--white)}
+.modal-text em{color:var(--gray2);font-style:italic}
+.modal-text a{color:var(--blue);text-decoration:none}
+.modal-text a:hover{text-decoration:underline}
+.modal-close{
+  position:absolute;top:16px;right:16px;
+  background:transparent;border:1px solid var(--border2);color:var(--gray);
+  font-family:'Minecraft',monospace;font-size:11px;letter-spacing:2px;
+  padding:8px 14px;cursor:none;
+  transition:color .2s,border-color .2s;
+}
+.modal-close:hover{color:var(--white);border-color:var(--blue)}
+.read-more-btn{
+  display:inline-block;margin-top:14px;padding:8px 18px;
+  background:transparent;color:var(--blue2);
+  font-family:'Minecraft',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid var(--border2);cursor:none;
+  position:relative;overflow:hidden;
+  transition:color .3s,border-color .3s;
+}
+.read-more-btn::before{
+  content:'';position:absolute;inset:0;background:var(--blue);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:0;
+}
+.read-more-btn:hover::before{transform:scaleX(1)}
+.read-more-btn:hover{color:#000;border-color:var(--blue)}
+.read-more-btn span{position:relative;z-index:1}
 
 @media(max-width:768px){
   .about-layout{grid-template-columns:1fr}
@@ -385,7 +486,7 @@ nav{animation:navIn .6s ease both}
 <div id="main-page" class="page-wrap">
 
 <section id="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-bg" style="background-image:url('2025-12-20_17_42_42.png');background-size:cover;background-position:center"></div>
   <div class="hero-content">
     <h1 class="hero-title">БилдЛэнд</h1>
     <p class="hero-sub">создай свою историю</p>
@@ -418,9 +519,9 @@ nav{animation:navIn .6s ease both}
       <div class="about-right reveal-right">
         <div class="about-img-frame">
           <div class="scan"></div>
-          <div class="about-slide active" id="aslide-0"><img src="" alt="slide1"></div>
-          <div class="about-slide" id="aslide-1"><img src="" alt="slide2"></div>
-          <div class="about-slide" id="aslide-2"><img src="" alt="slide3"></div>
+          <div class="about-slide active" id="aslide-0"><img src="2025-09-11_21_02_03.png" alt="slide1"></div>
+          <div class="about-slide" id="aslide-1"><img src="2025-11-10_23_04_54.png" alt="slide2"></div>
+          <div class="about-slide" id="aslide-2"><img src="2025-11-17_20_06_01.png" alt="slide3"></div>
         </div>
       </div>
     </div>
@@ -438,16 +539,20 @@ nav{animation:navIn .6s ease both}
       <h2 class="section-title">Галерея</h2>
     </div>
     <div class="gallery-frame reveal">
-      <div class="gallery-slide active"><img src="" alt="g1"></div>
-      <div class="gallery-slide"><img src="" alt="g2"></div>
-      <div class="gallery-slide"><img src="" alt="g3"></div>
-      <div class="gallery-slide"><img src="" alt="g4"></div>
+      <div class="gallery-slide active"><img src="2025-11-30_18_33_56.png" alt="g1"></div>
+      <div class="gallery-slide"><img src="2025-11-30_18_49_18.png" alt="g2"></div>
+      <div class="gallery-slide"><img src="2025-11-30_18_53_20.png" alt="g3"></div>
+      <div class="gallery-slide"><img src="2025-12-01_18_09_48.png" alt="g4"></div>
+      <div class="gallery-slide"><img src="2025-12-01_22_02_46.png" alt="g5"></div>
+      <div class="gallery-slide"><img src="2025-12-13_20_59_09.png" alt="g6"></div>
       <div class="gallery-overlay"></div>
       <div class="gallery-counter">
         <div class="g-dot active" onclick="setGallery(0)"></div>
         <div class="g-dot" onclick="setGallery(1)"></div>
         <div class="g-dot" onclick="setGallery(2)"></div>
         <div class="g-dot" onclick="setGallery(3)"></div>
+        <div class="g-dot" onclick="setGallery(4)"></div>
+        <div class="g-dot" onclick="setGallery(5)"></div>
       </div>
     </div>
   </div>
@@ -512,11 +617,12 @@ nav{animation:navIn .6s ease both}
   </div>
         <div class="news-list">
     <div class="news-card latest">
-      <div class="news-card-img" style="width:260px;flex-shrink:0;min-height:160px;overflow:hidden;padding:0"><img src="2026-05-03_15_50_57.png" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      <div class="news-card-img" style="width:260px;flex-shrink:0;min-height:160px;overflow:hidden;padding:0"><img src="2026-05-14_22_13_12.png" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       <div class="news-card-body">
-        <div class="news-date">03.05.2026 • ПОСЛЕДНЕЕ</div>
-        <div class="news-title">📡 СРОЧНОЕ ОБЪЯВЛЕНИЕ!</div>
-        <div class="news-excerpt">Игроки, внимание! Чтобы на сервере появилась глобальная 3D-карта (BlueMap), нам нужно создать наземную инфраструктуру связи.<br><br>Построить ретрансляционные вышки в ключевых точках мира. У подножия: табличка с ником и координатами. Пока не построим минимум 10 вышек — спутники не активируются.<br><br>Вопросы? Пишите в канал #поддержка.</div>
+        <div class="news-date">14.05.2026 • ПОСЛЕДНЕЕ</div>
+        <div class="news-title">💍 Первое бракосочетание на сервере!</div>
+        <div class="news-excerpt">Сегодня в историю нашего проекта вписана золотая страница! SS_Bog и SSSkyrimmm стали первой парой, скрепившей свои узы на сервере! 🕊️</div>
+        <button class="read-more-btn" onclick="openModal('modal3')"><span>Читать подробнее →</span></button>
       </div>
     </div>
     <div class="news-card">
@@ -524,15 +630,17 @@ nav{animation:navIn .6s ease both}
       <div class="news-card-body">
         <div class="news-date">11.05.2026</div>
         <div class="news-title">⚠️ СРОЧНЫЕ НОВОСТИ — Кибер-Протез Мк.1</div>
-        <div class="news-excerpt">В ходе экспериментов по кибернетике один из исследователей получил функционирующий протез с тремя свойствами: повышенная сила удара, кинетический импульс и встроенная броня.<br><br>Аномалия: в момент сборки прямо из воздуха выпала готовая рука — она не была собрана традиционным способом, она просто появилась.<br><br>Угроза или прогресс? И то, и другое. Источник аномалии неизвестен — и это главная опасность.</div>
+        <div class="news-excerpt">В ходе экспериментов по кибернетике один из исследователей получил функционирующий протез с тремя свойствами: повышенная сила удара, кинетический импульс и встроенная броня.</div>
+        <button class="read-more-btn" onclick="openModal('modal2')"><span>Читать подробнее →</span></button>
       </div>
     </div>
     <div class="news-card">
-      <div class="news-card-img" style="width:260px;flex-shrink:0;min-height:160px;overflow:hidden;padding:0"><img src="2026-05-14_22_13_12.png" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      <div class="news-card-img" style="width:260px;flex-shrink:0;min-height:160px;overflow:hidden;padding:0"><img src="2026-05-03_15_50_57.png" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       <div class="news-card-body">
-        <div class="news-date">14.05.2026</div>
-        <div class="news-title">💍 Первое бракосочетание на сервере!</div>
-        <div class="news-excerpt">Сегодня в историю нашего проекта вписана золотая страница! SS_Bog и SSSkyrimmm стали первой парой, скрепившей свои узы на сервере! 🕊️<br><br>Желаем тысячи мирных дней без лагов, сундука полного редких ресурсов, и чтобы дом никогда не нашли гриферы!<br><br><em>После торжества администратор столкнул мужа в воду и пытался украсть жену. Все пили шампанское, а молодожёны так и не провели первую брачную ночь.</em></div>
+        <div class="news-date">03.05.2026</div>
+        <div class="news-title">📡 СРОЧНОЕ ОБЪЯВЛЕНИЕ!</div>
+        <div class="news-excerpt">Игроки, внимание! Чтобы на сервере появилась глобальная 3D-карта (BlueMap), нам нужно создать наземную инфраструктуру связи. Построить ретрансляционные вышки в ключевых точках мира.</div>
+        <button class="read-more-btn" onclick="openModal('modal1')"><span>Читать подробнее →</span></button>
       </div>
     </div>
   </div>
@@ -549,6 +657,22 @@ nav{animation:navIn .6s ease both}
 </div>
 
 <script>
+// ── MODALS ──
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeModalOutside(e, id){
+  if(e.target === document.getElementById(id)) closeModal(id);
+}
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>closeModal(m.id));
+});
+
 // ── PAGE TRANSITIONS ──
 
 // ── SCROLL REVEAL ──
@@ -670,6 +794,78 @@ animCursor();
     </div>
     <div class="footer-copy">© 2026 БИЛДЛЭНД</div>
   </footer>
+</div>
+
+<!-- ══════════ MODALS ══════════ -->
+<div class="modal-overlay" id="modal1" onclick="closeModalOutside(event,'modal1')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">📡 СРОЧНОЕ ОБЪЯВЛЕНИЕ!</div>
+      <button class="modal-close" onclick="closeModal('modal1')">✕</button>
+    </div>
+    <img class="modal-img" src="2026-05-03_15_50_57.png" alt="Вышка">
+    <div class="modal-date">03.05.2026</div>
+    <div class="modal-body">
+      <p>Игроки, внимание! Чтобы на сервере появилась <strong>глобальная 3D-карта (BlueMap)</strong>, нам нужно создать наземную инфраструктуру связи.</p>
+      <p><strong>🚀 Что требуется:</strong><br>Построить <strong>ретрансляционные вышки</strong> в ключевых точках мира. Эти вышки будут связываться со спутниками и передавать данные для отображения карты в реальном времени.</p>
+      <p><strong>🗼 Требования к вышке:</strong><br>
+      — У подножия: табличка с указанием вашего ника и координат.<br>
+      — Где ставить: ваша база, спавн и т.д.</p>
+      <p><strong>⏳ Дедлайн:</strong><br>Пока не построим <strong>минимум 10 вышек</strong>, спутники не активируются. Чем быстрее построите — тем раньше все увидят свои базы на глобальной карте!</p>
+      <p>❓ <strong>Вопросы?</strong> Пишите в канал #┗・поддержка.</p>
+      <p>🌍 <strong>Что даст BlueMap:</strong> сможете смотреть любую точку сервера в браузере, искать постройки друзей, планировать экспедиции и любоваться своей территорией с высоты птичьего полёта.</p>
+      <p><strong>Вперёд, инженеры! Без ваших вышек спутники немы! 🛰️💫</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal2" onclick="closeModalOutside(event,'modal2')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">⚠️ СРОЧНЫЕ НОВОСТИ — Кибер-Протез Мк.1</div>
+      <button class="modal-close" onclick="closeModal('modal2')">✕</button>
+    </div>
+    <img class="modal-img" src="2026-05-11_22_30_09.png" alt="Кибер-Протез">
+    <div class="modal-date">11.05.2026</div>
+    <div class="modal-body">
+      <p>В ходе экспериментов по кибернетике один из исследователей получил функционирующий протез, обладающий тремя свойствами:<br>
+      — повышенная сила удара,<br>
+      — сила отбрасывания (кинетический импульс),<br>
+      — встроенная броня.</p>
+      <p>Название — <strong>«Кибер-Протез Мк.1»</strong>.</p>
+      <p><strong>Аномалия:</strong> в момент фиксации конечности прямо из воздуха, из локального искажения пространства-времени, выпала готовая рука. Она не была собрана традиционным способом — она появилась.</p>
+      <p><strong>Вопрос: угроза или прогресс?</strong><br>Ответ — и то, и другое, но с важным уточнением.</p>
+      <p><strong>Технологический прогресс</strong> — сам факт существования протеза доказывает: такие системы возможны и работают. В краткосрочной перспективе это прорыв в протезировании, тактическом оснащении, реабилитации.</p>
+      <p><strong>Угроза</strong> — источник аномалии неизвестен. Если рука пришла из:<br>
+      — параллельной реальности — возможен контакт или вторжение.<br>
+      — будущего — значит, кто-то намеренно отправляет технологии назад во времени. Зачем? Помощь? Ловушка?<br>
+      — другой точки пространства (червоточина) — возможно, это потерянный эксперимент другой цивилизации.</p>
+      <p><strong>Главная опасность:</strong> неизвестность происхождения. Та же сила, которая создала руку, может создать нечто более опасное. Если аномалия повторится — в лабораторию может «выпасть» уже не протез, а целый боевой модуль или что-то неконтролируемое.</p>
+      <p>Сейчас это — <strong>ящик Пандоры, открытый в лаборатории</strong>. Захочет ли кто-то оттуда вылезти следом — вопрос времени.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal3" onclick="closeModalOutside(event,'modal3')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">💍 Первое бракосочетание на сервере!</div>
+      <button class="modal-close" onclick="closeModal('modal3')">✕</button>
+    </div>
+    <img class="modal-img" src="2026-05-14_22_13_12.png" alt="Свадьба">
+    <div class="modal-date">14.05.2026</div>
+    <div class="modal-body">
+      <p>Дорогие игроки и гости! Сегодня в историю нашего проекта вписана золотая страница. 🏆</p>
+      <p>Мы официально объявляем: <strong>«SS_Bog»</strong> и <strong>«SSSkyrimmm»</strong> стали первой парой, скрепившей свои узы на нашем сервере! 🕊️</p>
+      <p>Ленты летали, чат взрывался сердечками, а ложечки светились (ну или что там у нас вместо колец). Желаем вам:<br>
+      🔹 Тысячи мирных дней без лагов,<br>
+      🔹 Сундука, полного редких ресурсов,<br>
+      🔹 И чтобы ваш дом никогда не нашли гриферы!</p>
+      <p>Пусть этот союз будет вечным, как обсидиан, и крепким, как блок бедрока!<br>Любви вам и вкусных тортов! 🎂</p>
+      <p>👉 Кидайте в чат поздравления для молодожёнов! ❤️</p>
+      <p><em>После этого события администратор сервера столкнул мужа в воду и пытался украсть жену. Затем все участники торжества пили шампанское, а молодожёны так и не провели свою первую брачную ночь.</em></p>
+    </div>
+  </div>
 </div>
 
 </body>
