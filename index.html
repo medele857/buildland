@@ -240,18 +240,29 @@ section{padding:90px 0}
 .donate-card:nth-child(1){animation:floatA 4s ease-in-out infinite}
 .donate-card:nth-child(2){animation:floatB 4.5s ease-in-out infinite}
 .donate-card:nth-child(3){animation:floatC 3.8s ease-in-out infinite}
+.donate-card:nth-child(4){animation:floatA 4.2s ease-in-out infinite}
+.donate-card:nth-child(5){animation:floatB 3.6s ease-in-out infinite}
 .donate-card:hover{border-color:var(--blue);transform:translateY(-6px)!important;box-shadow:0 16px 40px rgba(0,0,0,0.5),0 0 20px rgba(85,212,255,0.07);animation:none!important}
+.donate-card--featured{border-color:rgba(85,212,255,0.35);box-shadow:0 0 30px rgba(85,212,255,0.08)}
+.donate-card--featured .donate-tier{color:var(--blue)}
+.donate-card-img{width:100%;aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--border2)}
+.donate-card-img img{width:100%;height:100%;object-fit:cover;display:block}
 .donate-img{width:100%;aspect-ratio:16/9;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:42px;border-bottom:1px solid var(--border2);color:#333}
 .donate-body{padding:22px}
 .donate-tier{font-size:9px;color:var(--blue2);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
-.donate-title{font-size:14px;color:var(--white);letter-spacing:1px;margin-bottom:8px}
+.donate-title{font-size:15px;color:var(--white);letter-spacing:1px;margin-bottom:10px;font-family:'Minecraft',monospace}
+.donate-price{font-size:22px;color:var(--blue);letter-spacing:1px;margin-bottom:4px;font-family:'Minecraft',monospace}
+.donate-period{font-size:11px;color:var(--gray);letter-spacing:1px}
+.donate-desc{font-size:10px;color:var(--gray);line-height:2;letter-spacing:1px;margin-bottom:14px}
+.donate-server{font-size:10px;color:var(--gray2,#666);line-height:2.2;letter-spacing:1px;margin-bottom:18px;border-top:1px solid var(--border2);padding-top:12px}
+.donate-server em{font-style:italic;white-space:pre-line}
 .donate-sub{font-size:10px;color:var(--gray);line-height:2;letter-spacing:1px;margin-bottom:18px}
 .donate-btn{
   display:block;width:100%;padding:11px;
   background:transparent;color:var(--white);
   font-family:'Minecraft',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;
   border:1px solid var(--border2);border-radius:0;cursor:none;
-  position:relative;overflow:hidden;
+  position:relative;overflow:hidden;text-decoration:none;text-align:center;
   transition:color .3s,border-color .3s;
 }
 .donate-btn::before{
@@ -566,33 +577,70 @@ nav{animation:navIn .6s ease both}
       <h2 class="section-title">Донат</h2>
     </div>
     <div class="donate-grid stagger">
+
+      <!-- 1 — Любитель -->
       <div class="donate-card">
-        <div class="donate-img">📦</div>
         <div class="donate-body">
-          <div class="donate-tier">тест — уровень</div>
-          <div class="donate-title">тест - заголовок</div>
-          <div class="donate-sub">тест - подзаголовок<br>тест - подзаголовок</div>
-          <button class="donate-btn"><span>Получить</span></button>
+          <div class="donate-tier">— уровень 1 —</div>
+          <div class="donate-title">Любитель</div>
+          <div class="donate-price">99 ₽<span class="donate-period"> / мес</span></div>
+          <div class="donate-desc">Открывает доступ к некоторому контенту и показывает что Вы не просто подписчик, а хотите поддержать меня!</div>
+          <div class="donate-server"><em>Сервер:<br>Даёт значок бустера</em></div>
+          <a href="https://boosty.to/build_land/posts/d7db965c-d875-453a-a7ab-897a0663fc24/purchase/2277398" target="_blank" class="donate-btn"><span>Получить</span></a>
         </div>
       </div>
+
+      <!-- 2 — Продвинутый -->
       <div class="donate-card">
-        <div class="donate-img">💎</div>
         <div class="donate-body">
-          <div class="donate-tier">тест — уровень</div>
-          <div class="donate-title">тест - заголовок</div>
-          <div class="donate-sub">тест - подзаголовок<br>тест - подзаголовок</div>
-          <button class="donate-btn"><span>Получить</span></button>
+          <div class="donate-tier">— уровень 2 —</div>
+          <div class="donate-title">Продвинутый</div>
+          <div class="donate-price">199 ₽<span class="donate-period"> / мес</span></div>
+          <div class="donate-desc">Вы — не только интересуетесь мной, но ещё и готовы отдать чуть больше, получив гораздо больше.</div>
+          <div class="donate-server"><em>Сервер:<br>Даёт значок бустера<br>Возможность надевать предметы на голову</em></div>
+          <a href="https://boosty.to/build_land/purchase/2277407" target="_blank" class="donate-btn"><span>Получить</span></a>
         </div>
       </div>
+
+      <!-- 3 — Учёный -->
       <div class="donate-card">
-        <div class="donate-img">👑</div>
+        <div class="donate-card-img"><img src="Ученый.png" alt="Учёный"></div>
         <div class="donate-body">
-          <div class="donate-tier">тест — уровень</div>
-          <div class="donate-title">тест - заголовок</div>
-          <div class="donate-sub">тест - подзаголовок<br>тест - подзаголовок</div>
-          <button class="donate-btn"><span>Получить</span></button>
+          <div class="donate-tier">— уровень 3 —</div>
+          <div class="donate-title">Учёный</div>
+          <div class="donate-price">499 ₽<span class="donate-period"> / мес</span></div>
+          <div class="donate-desc">Покупая, вы хотите большего. Больше контента, больше знаний. Вы рыскаете в поисках мудрости, делая приятно и себе и мне.</div>
+          <div class="donate-server"><em>Сервер:<br>Даёт значок бустера<br>Возможность надевать предметы на голову<br>Небольшие спойлеры<br>Простые промокоды</em></div>
+          <a href="https://boosty.to/build_land/posts/d7db965c-d875-453a-a7ab-897a0663fc24/purchase/2277535" target="_blank" class="donate-btn"><span>Получить</span></a>
         </div>
       </div>
+
+      <!-- 4 — Командир Отдела -->
+      <div class="donate-card">
+        <div class="donate-card-img"><img src="Командир_Отдела.png" alt="Командир Отдела"></div>
+        <div class="donate-body">
+          <div class="donate-tier">— уровень 4 —</div>
+          <div class="donate-title">Командир Отдела</div>
+          <div class="donate-price">699 ₽<span class="donate-period"> / мес</span></div>
+          <div class="donate-desc">Вам всё мало. Вам нужно ЕЩЁ больше! И это хорошо. Будет вам больше. Гораздо больше. То, чего вы заслуживаете.</div>
+          <div class="donate-server"><em>Сервер:<br>Даёт значок бустера<br>Возможность надевать предметы на голову<br>Спойлеры<br>Промокоды<br>Возможность изменять рост от 0.8 до 1.2</em></div>
+          <a href="https://boosty.to/build_land/posts/d7db965c-d875-453a-a7ab-897a0663fc24/purchase/2277543" target="_blank" class="donate-btn"><span>Получить</span></a>
+        </div>
+      </div>
+
+      <!-- 5 — Реликтовый -->
+      <div class="donate-card donate-card--featured">
+        <div class="donate-card-img"><img src="Реликтовый.png" alt="Реликтовый"></div>
+        <div class="donate-body">
+          <div class="donate-tier">— уровень 5 —</div>
+          <div class="donate-title">Реликтовый</div>
+          <div class="donate-price">1 500 ₽<span class="donate-period"> / мес</span></div>
+          <div class="donate-desc">Ну. Деньги то большие. Но раз уж купите, то получите особое приглашение. Если другие получают тур по кулисам, то вы получите доступ ко всему, буквально. Никаких тайн, можете спрашивать всё что хотите у нас, мы ответим и ещё скажем что вы забыли спросить.</div>
+          <div class="donate-server"><em>Сервер:<br>Даёт значок бустера<br>Возможность надевать предметы на голову<br>Спойлеры<br>Промокоды<br>Слив обновлений<br>Возможность скачать модели с сервера<br>Возможность изменять рост от 0.6 до 1.4</em></div>
+          <a href="https://boosty.to/build_land/posts/d7db965c-d875-453a-a7ab-897a0663fc24/purchase/2277547" target="_blank" class="donate-btn"><span>Получить</span></a>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
