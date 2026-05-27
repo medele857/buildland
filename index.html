@@ -46,13 +46,14 @@ function showPage(p, anchor) {
 html{scroll-behavior:smooth}
 body{font-family:'Minecraft',monospace;background:var(--bg);color:var(--white);overflow-x:hidden;cursor:none}
 
-
+/* CURSOR */
 #cursor-canvas{position:fixed;inset:0;pointer-events:none;z-index:99999}
 
-
+/* PAGE TRANSITION */
 .page-wrap{opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease}
 .page-wrap.in{opacity:1;transform:none}
 
+/* NAV */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:1000;
   display:grid;grid-template-columns:1fr auto 1fr;
@@ -103,7 +104,8 @@ nav{
   transition:color .25s,transform .25s;
 }
 .nav-social a:hover{color:var(--blue);transform:translateY(-2px)}
- 
+
+/* HERO */
 #hero{
   min-height:100vh;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
@@ -149,6 +151,7 @@ nav{
 .hero-btn:hover{color:#000;border-color:var(--blue)}
 .hero-btn span{position:relative;z-index:1}
 
+/* SECTIONS */
 section{padding:90px 0}
 .section-inner{max-width:1200px;margin:0 auto;padding:0 40px}
 .section-header{margin-bottom:52px}
@@ -165,6 +168,7 @@ section{padding:90px 0}
 }
 .section-header.visible .section-title::after{width:44px}
 
+/* ABOUT */
 #about{background:var(--bg);border-top:1px solid var(--border)}
 .about-layout{
   display:grid;grid-template-columns:1fr 1fr;
@@ -207,6 +211,7 @@ section{padding:90px 0}
 }
 .about-desc-text{font-size:12px;color:var(--gray);line-height:2.2;letter-spacing:1px;text-align:center}
 
+/* GALLERY */
 #gallery{background:var(--bg2);border-top:1px solid var(--border)}
 .gallery-frame{
   position:relative;aspect-ratio:21/9;max-height:520px;
@@ -225,6 +230,7 @@ section{padding:90px 0}
 .g-dot{width:6px;height:6px;background:rgba(255,255,255,0.2);cursor:none;transition:background .2s,box-shadow .2s}
 .g-dot.active{background:var(--blue);box-shadow:0 0 8px var(--blue)}
 
+/* DONATE */
 #donate{background:var(--bg2);border-top:1px solid var(--border)}
 .donate-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .donate-card{
@@ -252,7 +258,7 @@ section{padding:90px 0}
 .donate-server em{font-style:italic;white-space:pre-line}
 .donate-sub{font-size:10px;color:var(--gray);line-height:2;letter-spacing:1px;margin-bottom:18px}
 .donate-btn{
-  display:inline-block;padding:11px 24px;
+  display:block;width:100%;padding:11px;
   background:transparent;color:var(--white);
   font-family:'Minecraft',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;
   border:1px solid var(--border2);border-radius:0;cursor:none;
@@ -268,7 +274,7 @@ section{padding:90px 0}
 .donate-btn:hover{color:#000;border-color:var(--blue)}
 .donate-btn span{position:relative;z-index:1}
 
-
+/* FOOTER */
 footer{
   background:#000;border-top:1px solid var(--border2);
   padding:40px 32px;text-align:center;
@@ -283,6 +289,7 @@ footer{
 .footer-social a:hover{color:var(--blue);transform:translateY(-3px)}
 .footer-copy{font-size:9px;color:var(--border2);letter-spacing:2px}
 
+/* NEWS PAGE */
 #news-page{display:none;min-height:100vh;padding-top:54px;background:var(--bg)}
 .news-hero{padding:64px 40px 48px;max-width:1200px;margin:0 auto;border-bottom:1px solid var(--border2)}
 .news-page-title{font-family:'Minecraft',monospace;font-size:clamp(28px,5vw,50px);color:var(--white);letter-spacing:4px;margin-bottom:8px}
@@ -306,6 +313,7 @@ footer{
 }
 .news-card.latest:hover{transform:scale(1.012) translateX(4px);animation:none;border-color:var(--blue);box-shadow:0 0 30px rgba(85,212,255,0.2)}
 
+/* MEDALS PAGE */
 #medals-page{display:none;min-height:100vh;padding-top:54px;background:var(--bg)}
 .medals-hero{padding:64px 40px 48px;max-width:1200px;margin:0 auto;border-bottom:1px solid var(--border2)}
 .medals-page-title{font-family:'Minecraft',monospace;font-size:clamp(28px,5vw,50px);color:var(--white);letter-spacing:4px;margin-bottom:8px}
@@ -321,7 +329,7 @@ footer{
   letter-spacing:2px;line-height:2;
 }
 
-
+/* READ MORE BUTTON */
 .read-more-btn{
   margin-top:14px;padding:9px 20px;
   background:transparent;color:var(--blue);
@@ -339,7 +347,7 @@ footer{
 .read-more-btn:hover{color:#000}
 .read-more-btn span{position:relative;z-index:1}
 
-
+/* MODAL */
 .modal-overlay{
   display:none;position:fixed;inset:0;z-index:9000;
   background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);
@@ -374,7 +382,7 @@ footer{
 .modal-body em{color:var(--gray2);font-style:italic}
 .modal-date{padding:0 32px 24px;font-size:9px;color:var(--blue2);letter-spacing:3px}
 
-
+/* SCROLL REVEAL */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:none}
 .reveal-left{opacity:0;transform:translateX(-30px);transition:opacity .7s ease,transform .7s ease}
@@ -386,7 +394,7 @@ footer{
 .stagger.visible>*:nth-child(2){opacity:1;transform:none;transition-delay:.15s}
 .stagger.visible>*:nth-child(3){opacity:1;transform:none;transition-delay:.25s}
 
-
+/* KEYFRAMES */
 @keyframes heroIn{0%{opacity:0;transform:translateY(24px) scale(.97);filter:blur(4px)}60%{opacity:1;transform:translateY(-2px) scale(1.01);filter:blur(0)}100%{opacity:1;transform:none}}
 @keyframes heroSubIn{0%{opacity:0;letter-spacing:16px}100%{opacity:1;letter-spacing:6px}}
 @keyframes heroBtnIn{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:none}}
@@ -405,6 +413,7 @@ nav{animation:navIn .6s ease both}
 .section-header.visible .section-tag{animation:tagSlide .5s ease both}
 .section-header.visible .section-title{animation:heroSubIn .6s .1s ease both}
 
+/* MODAL */
 .modal-overlay{
   display:none;position:fixed;inset:0;z-index:9000;
   background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);
@@ -466,9 +475,11 @@ nav{animation:navIn .6s ease both}
 
 <canvas id="cursor-canvas"></canvas>
 
+<!-- NAV -->
 <nav>
   <a href="javascript:void(0)" class="nav-logo" onclick="showPage('main')" style="cursor:none">БилдЛэнд</a>
   <ul class="nav-links">
+    <li><a href="javascript:void(0)" onclick="showPage('main','about')">О нас</a></li>
     <li><a href="javascript:void(0)" onclick="showPage('news')">Новости</a></li>
     <li><a href="javascript:void(0)" onclick="showPage('main','gallery')">Галерея</a></li>
     <li><a href="javascript:void(0)" onclick="showPage('medals')">Медали</a></li>
@@ -482,6 +493,7 @@ nav{animation:navIn .6s ease both}
   </div>
 </nav>
 
+<!-- ══════════ MAIN PAGE ══════════ -->
 <div id="main-page" class="page-wrap">
 
 <section id="hero">
@@ -493,16 +505,48 @@ nav{animation:navIn .6s ease both}
   </div>
 </section>
 
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-tag">// О сервере</div>
+      <h2 class="section-title">О нас</h2>
+    </div>
+    <div class="about-layout">
+      <div class="about-left reveal-left">
+        <div class="about-eyebrow">СЕРВЕР МАЙНКРАФТ</div>
+        <div class="about-headline" id="about-headline">Тест один</div>
+        <div class="about-progress-wrap">
+          <div class="progress-labels" id="progress-labels">
+            <span class="progress-label active" data-idx="0">01</span>
+            <span class="progress-label" data-idx="1">02</span>
+            <span class="progress-label" data-idx="2">03</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+      <div class="about-right reveal-right">
+        <div class="about-img-frame">
+          <div class="scan"></div>
+          <div class="about-slide active" id="aslide-0"><img src="2025-09-11_21_02_03.png" alt="slide1"></div>
+          <div class="about-slide" id="aslide-1"><img src="2025-11-10_23_04_54.png" alt="slide2"></div>
+          <div class="about-slide" id="aslide-2"><img src="2025-11-17_20_06_01.png" alt="slide3"></div>
+        </div>
+      </div>
+    </div>
     <div class="about-desc-block reveal">
-      <p class="about-desc-text">На нашем майнкрафт-сервере тебя ждут огромное количество плагинов, чуткая и отзывчивая администрация, глубоко прописанный лор, в который хочется погружаться, а также уйма авторских кастомных механик !🔥<br><br>Хочешь попасть в этот мир? Подавай заявку в нашем Discord — <a href="https://discord.gg/MV8sZJv4E" target="_blank" style="color:var(--blue);text-decoration:underline;cursor:pointer">Тык</a></p>
+      <p class="about-desc-text">тест тест тест</p>
     </div>
   </div>
 </section>
 
+<!-- GALLERY -->
 <section id="gallery">
   <div class="section-inner">
     <div class="section-header reveal">
-      <div class="section-tag">газан😱</div>
+      <div class="section-tag">// визуал</div>
       <h2 class="section-title">Галерея</h2>
     </div>
     <div class="gallery-frame reveal">
@@ -525,15 +569,16 @@ nav{animation:navIn .6s ease both}
   </div>
 </section>
 
-
+<!-- DONATE -->
 <section id="donate">
   <div class="section-inner">
     <div class="section-header reveal">
-      <div class="section-tag">поддержать сервер</div>
+      <div class="section-tag">// поддержать сервер</div>
       <h2 class="section-title">Донат</h2>
     </div>
     <div class="donate-grid stagger">
 
+      <!-- 1 — Любитель -->
       <div class="donate-card">
         <div class="donate-body">
           <div class="donate-tier">— уровень 1 —</div>
@@ -545,6 +590,7 @@ nav{animation:navIn .6s ease both}
         </div>
       </div>
 
+      <!-- 2 — Продвинутый -->
       <div class="donate-card">
         <div class="donate-body">
           <div class="donate-tier">— уровень 2 —</div>
@@ -556,6 +602,7 @@ nav{animation:navIn .6s ease both}
         </div>
       </div>
 
+      <!-- 3 — Учёный -->
       <div class="donate-card">
         <div class="donate-card-img"><img src="Ученый.png" alt="Учёный"></div>
         <div class="donate-body">
@@ -568,6 +615,7 @@ nav{animation:navIn .6s ease both}
         </div>
       </div>
 
+      <!-- 4 — Командир Отдела -->
       <div class="donate-card">
         <div class="donate-card-img"><img src="Командир_Отдела.png" alt="Командир Отдела"></div>
         <div class="donate-body">
@@ -580,6 +628,7 @@ nav{animation:navIn .6s ease both}
         </div>
       </div>
 
+      <!-- 5 — Реликтовый -->
       <div class="donate-card donate-card--featured">
         <div class="donate-card-img"><img src="Реликтовый.png" alt="Реликтовый"></div>
         <div class="donate-body">
@@ -608,10 +657,11 @@ nav{animation:navIn .6s ease both}
 </footer>
 </div><!-- /main-page -->
 
+<!-- ══════════ NEWS PAGE ══════════ -->
 <div id="news-page" class="page-wrap" style="display:none">
   <div class="news-hero">
     <h1 class="news-page-title">Журнал новостей</h1>
-    <p class="news-page-sub">Новости сервера</p>
+    <p class="news-page-sub">// ну тест</p>
   </div>
         <div class="news-list">
     <div class="news-card latest">
@@ -655,7 +705,7 @@ nav{animation:navIn .6s ease both}
 </div>
 
 <script>
-
+// ── MODALS ──
 function openModal(id){
   document.getElementById(id).classList.add('open');
   document.body.style.overflow='hidden';
@@ -671,7 +721,9 @@ document.addEventListener('keydown', e=>{
   if(e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>closeModal(m.id));
 });
 
+// ── PAGE TRANSITIONS ──
 
+// ── SCROLL REVEAL ──
 const obs = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
@@ -689,9 +741,10 @@ const obs = new IntersectionObserver((entries)=>{
 },{threshold:.1});
 document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger,.section-header').forEach(el=>obs.observe(el));
 
-
+// init main page in
 document.getElementById('main-page').classList.add('in');
 
+// ── ABOUT SLIDER ──
 const aboutTexts = ['Тест один','Тест два','Тест три'];
 let aboutIdx=0, progressRaf;
 const SLIDE_DUR=5000;
@@ -729,7 +782,7 @@ document.querySelectorAll('.progress-label').forEach(el=>{
   });
 });
 
-
+// ── GALLERY ──
 let gIdx=0, gTimer;
 function setGallery(i){
   document.querySelectorAll('.gallery-slide').forEach((s,j)=>s.classList.toggle('active',j===i));
@@ -739,7 +792,7 @@ function setGallery(i){
 }
 gTimer=setInterval(()=>setGallery((gIdx+1)%4),4000);
 
-
+// ── COMET CURSOR ──
 const canvas=document.getElementById('cursor-canvas');
 const ctx=canvas.getContext('2d');
 let W,H;
@@ -770,11 +823,11 @@ function animCursor(){
 animCursor();
 </script>
 
-
+<!-- ══════════ MEDALS PAGE ══════════ -->
 <div id="medals-page" class="page-wrap" style="display:none">
   <div class="medals-hero">
     <h1 class="medals-page-title">Медали</h1>
-    <p class="medals-page-sub">Достижения игроков</p>
+    <p class="medals-page-sub">// тест описание</p>
   </div>
   <div class="medals-empty">
     <div class="medals-empty-icon">🏅</div>
@@ -791,6 +844,7 @@ animCursor();
   </footer>
 </div>
 
+<!-- ══════════ MODALS ══════════ -->
 <div class="modal-overlay" id="modal1" onclick="closeModalOutside(event,'modal1')">
   <div class="modal-box">
     <div class="modal-header">
