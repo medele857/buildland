@@ -104,7 +104,6 @@ nav{
 }
 .nav-social a:hover{color:var(--blue);transform:translateY(-2px)}
 
-/* HERO */
 #hero{
   min-height:100vh;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
@@ -208,7 +207,6 @@ section{padding:90px 0}
 }
 .about-desc-text{font-size:12px;color:var(--gray);line-height:2.2;letter-spacing:1px;text-align:center}
 
-/* GALLERY */
 #gallery{background:var(--bg2);border-top:1px solid var(--border)}
 .gallery-frame{
   position:relative;aspect-ratio:21/9;max-height:520px;
@@ -557,7 +555,6 @@ nav{animation:navIn .6s ease both}
         <div class="g-dot" onclick="setGallery(17)"></div>
         <div class="g-dot" onclick="setGallery(18)"></div>
         <div class="g-dot" onclick="setGallery(19)"></div>
-        <div class="g-dot" onclick="setGallery(20)"></div>
       </div>
     </div>
   </div>
@@ -781,15 +778,38 @@ document.querySelectorAll('.progress-label').forEach(el=>{
 });
 
 
-let gIdx=0, gTimer;
-function setGallery(i){
-  document.querySelectorAll('.gallery-slide').forEach((s,j)=>s.classList.toggle('active',j===i));
-  document.querySelectorAll('.g-dot').forEach((d,j)=>d.classList.toggle('active',j===i));
-  gIdx=i; clearInterval(gTimer);
-  gTimer=setInterval(()=>setGallery((gIdx+1)%4),4000);
-}
-gTimer=setInterval(()=>setGallery((gIdx+1)%4),4000);
+let gIdx = 0;
+let gTimer;
 
+const gallerySlides = document.querySelectorAll('.gallery-slide');
+const galleryDots = document.querySelectorAll('.g-dot');
+
+function setGallery(i){
+
+  if(i >= gallerySlides.length){
+    i = 0;
+  }
+
+  gallerySlides.forEach((slide,index)=>{
+    slide.classList.toggle('active', index === i);
+  });
+
+  galleryDots.forEach((dot,index)=>{
+    dot.classList.toggle('active', index === i);
+  });
+
+  gIdx = i;
+
+  clearInterval(gTimer);
+
+  gTimer = setInterval(()=>{
+    setGallery(gIdx + 1);
+  },4000);
+}
+
+gTimer = setInterval(()=>{
+  setGallery(gIdx + 1);
+},4000);
 
 const canvas=document.getElementById('cursor-canvas');
 const ctx=canvas.getContext('2d');
