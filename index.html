@@ -1199,23 +1199,31 @@ loadNewsFromFirebase();
 
 function initSwordCanvas(canvasId){
   const canvas = document.getElementById(canvasId);
-  if(!canvas || typeof THREE === 'undefined') return;
+  if(!canvas) return;
+  if(typeof THREE === 'undefined' || !THREE.OBJLoader || !THREE.MTLLoader){
+    setTimeout(()=>initSwordCanvas(canvasId), 150);
+    return;
+  }
 
   const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
-  renderer.setPixelRatio(window.devicePixelRatio || 1);
+  renderer.setClearColor(0x000000, 0);
+  renderer.setPixelRatio(window.devicePixelRatio||1);
   renderer.setSize(canvas.width, canvas.height, false);
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(35, canvas.width/canvas.height, 0.1, 100);
+  const camera = new THREE.PerspectiveCamera(38, canvas.width/canvas.height, 0.1, 100);
   camera.position.set(0, 0, 6);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-  const dir1 = new THREE.DirectionalLight(0xffffff, 0.9);
-  dir1.position.set(3, 4, 5);
+  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+  const dir1 = new THREE.DirectionalLight(0xffffff, 1.2);
+  dir1.position.set(4, 5, 6);
   scene.add(dir1);
-  const dir2 = new THREE.DirectionalLight(0x55d4ff, 0.4);
+  const dir2 = new THREE.DirectionalLight(0x55d4ff, 0.6);
   dir2.position.set(-3, -2, -4);
   scene.add(dir2);
+  const dir3 = new THREE.DirectionalLight(0xffffff, 0.5);
+  dir3.position.set(0, -5, 3);
+  scene.add(dir3);
 
   let swordGroup = null;
 
@@ -1232,24 +1240,24 @@ function initSwordCanvas(canvasId){
       box.getCenter(center);
       obj.position.sub(center);
       const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 3.2 / maxDim;
-      obj.scale.setScalar(scale);
+      obj.scale.setScalar(3.4 / maxDim);
 
       swordGroup = new THREE.Group();
       swordGroup.add(obj);
       swordGroup.rotation.z = Math.PI / 10;
       scene.add(swordGroup);
-    });
-  });
+    }, undefined, err=>{ console.error('OBJ load error', err); });
+  }, undefined, err=>{ console.error('MTL load error', err); });
 
   function animate(){
     requestAnimationFrame(animate);
-    if(swordGroup) swordGroup.rotation.y += 0.012;
+    if(swordGroup) swordGroup.rotation.y += 0.014;
     renderer.render(scene, camera);
   }
   animate();
 }
-initSwordCanvas('sword-canvas-1');
+
+window.addEventListener('load', ()=>initSwordCanvas('sword-canvas-1'));
 </script>
 
 
