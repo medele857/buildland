@@ -6,7 +6,7 @@
 <title>БилдЛэнд</title>
 <link rel="icon" type="image/png" href="pack.png">
 <script>
-const pages = {'main':'main-page','news':'news-page','medals':'medals-page'};
+const pages = {'main':'main-page','news':'news-page','medals':'medals-page','admin':'admin-page'};
 function showPage(p, anchor) {
   Object.values(pages).forEach(id => {
     const el = document.getElementById(id);
@@ -33,6 +33,33 @@ function showPage(p, anchor) {
   },50);
 }
 </script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDdez54oAxUIk-CkfOw2O3k86SHWkd0qO4",
+  authDomain: "buildland-65e54.firebaseapp.com",
+  projectId: "buildland-65e54",
+  storageBucket: "buildland-65e54.firebasestorage.app",
+  messagingSenderId: "330615177007",
+  appId: "1:330615177007:web:52fa75004d4ea25e26abda"
+};
+
+let fbDb=null, fbAuth=null, fbReady=false;
+try{
+  firebase.initializeApp(firebaseConfig);
+  fbDb = firebase.firestore();
+  fbAuth = firebase.auth();
+  fbReady = true;
+}catch(e){ console.warn(e); }
+</script>
+
+
 <style>
 @font-face{font-family:'Minecraft';src:url('Minecraft.ttf') format('truetype')}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -466,6 +493,142 @@ nav{animation:navIn .6s ease both}
   nav{grid-template-columns:auto 1fr}
   .nav-links{display:none}
 }
+
+/* ============================================================
+   МЕДАЛИ — по одной на всю ширину
+   ============================================================ */
+.medals-wrap{
+  max-width:1200px;margin:0 auto;
+  padding:48px 40px 70px;
+  display:flex;flex-direction:column;gap:30px;
+}
+
+.medal-card{
+  position:relative;width:100%;overflow:hidden;
+  background:linear-gradient(160deg,#0c1014 0%,#070809 60%,#050505 100%);
+  border:1px solid var(--border2);
+  display:grid;grid-template-columns:140px 1fr 160px;
+  align-items:center;gap:30px;
+  padding:36px 40px;min-height:260px;
+  box-shadow:0 20px 50px rgba(0,0,0,.55);
+}
+.medal-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--blue),transparent);
+  z-index:2;
+}
+.medal-card::after{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 18% 30%,rgba(85,212,255,.10),transparent 55%),
+             radial-gradient(ellipse at 85% 70%,rgba(255,170,0,.06),transparent 55%);
+}
+
+/* ---- 3D алмазный меч слева ---- */
+.medal-sword{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;height:150px}
+.medal-sword canvas{filter:drop-shadow(0 0 14px rgba(85,212,255,.45))}
+
+/* ---- ядро медали ---- */
+.medal-core{
+  position:relative;z-index:2;
+  display:flex;align-items:center;gap:24px;
+  background:rgba(255,255,255,.02);backdrop-filter:blur(2px);
+  border:1px solid rgba(255,255,255,.06);
+  padding:22px 28px;
+}
+.medal-badge{position:relative;flex-shrink:0;width:84px;height:98px;display:flex;align-items:center;justify-content:center}
+.medal-badge::before{
+  content:'';position:absolute;top:4px;left:50%;width:80px;height:80px;transform:translateX(-50%);
+  border-radius:50%;
+  background:conic-gradient(from 0deg,transparent,rgba(255,200,80,.5),transparent 55%);
+  animation:badgeShimmer 4s linear infinite;filter:blur(2px);z-index:0;
+}
+.medal-badge svg{position:relative;z-index:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
+@keyframes badgeShimmer{to{transform:translateX(-50%) rotate(360deg)}}
+
+.medal-info{display:flex;flex-direction:column;gap:3px;min-width:0}
+.medal-nick{font-family:'Minecraft',monospace;font-size:clamp(20px,3vw,30px);color:var(--gold);letter-spacing:2px;text-shadow:0 0 14px rgba(255,170,0,.4),2px 2px 0 rgba(0,0,0,.6)}
+.medal-award{font-size:12px;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.medal-fields{display:grid;grid-template-columns:repeat(2,auto);gap:7px 24px}
+.medal-field{display:flex;flex-direction:column;gap:1px}
+.medal-field span{font-size:8px;color:var(--blue2);letter-spacing:2px;text-transform:uppercase}
+.medal-field b{font-size:13px;color:var(--white);letter-spacing:1px;font-weight:normal}
+
+/* ---- скин игрока (готовый вращающийся рендер) ---- */
+.medal-skin{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.skin-gif{
+  width:130px;height:auto;max-height:170px;object-fit:contain;
+  image-rendering:auto;
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.55));
+  animation:skinFloat 3.2s ease-in-out infinite;
+}
+@keyframes skinFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.skin-label{font-size:8px;color:var(--gray);letter-spacing:2px;white-space:nowrap}
+
+@media(max-width:768px){
+  .medals-wrap{padding:32px 16px 50px}
+  .medal-card{grid-template-columns:1fr;gap:22px;justify-items:center;text-align:center;padding:32px 18px}
+  .medal-core{flex-direction:column;text-align:center}
+  .medal-fields{grid-template-columns:1fr;justify-items:center}
+  .medal-field{align-items:center}
+}
+
+#admin-page{display:none;min-height:100vh;padding-top:54px;background:var(--bg)}
+.admin-wrap{max-width:760px;margin:0 auto;padding:64px 32px 80px}
+.admin-title{font-family:'Minecraft',monospace;font-size:clamp(22px,4vw,34px);color:var(--white);letter-spacing:3px;margin-bottom:8px}
+.admin-sub{font-size:11px;color:var(--gray);letter-spacing:2px;margin-bottom:36px}
+
+.admin-login{
+  border:1px solid var(--border2);border-top:2px solid var(--blue);
+  background:var(--bg3);padding:30px 28px;display:flex;flex-direction:column;gap:18px;
+  max-width:380px;
+}
+.admin-login-title{font-family:'Minecraft',monospace;font-size:14px;color:var(--white);letter-spacing:2px}
+.admin-login-error{font-size:10px;color:#ff8080;letter-spacing:.5px;min-height:14px}
+
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px}
+.admin-logout-btn{
+  padding:9px 18px;background:transparent;color:var(--gray);
+  font-family:'Minecraft',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid var(--border2);cursor:pointer;
+}
+.admin-logout-btn:hover{color:#ff8080;border-color:#ff5555}
+
+.admin-form{display:flex;flex-direction:column;gap:18px}
+.admin-field{display:flex;flex-direction:column;gap:6px}
+.admin-field label{font-size:9px;color:var(--blue2);letter-spacing:2px;text-transform:uppercase}
+.admin-field input[type=text],.admin-field input[type=email],.admin-field input[type=password],.admin-field textarea{
+  background:#000;border:1px solid var(--border2);color:var(--white);
+  font-family:'Minecraft',monospace;font-size:12px;letter-spacing:.5px;padding:12px 14px;
+  outline:none;transition:border-color .25s;resize:vertical;
+}
+.admin-field input[type=text]:focus,.admin-field input[type=email]:focus,.admin-field input[type=password]:focus,.admin-field textarea:focus{border-color:var(--blue)}
+.admin-submit-btn{
+  margin-top:8px;padding:14px 28px;background:transparent;color:var(--blue);
+  font-family:'Minecraft',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid var(--blue);cursor:pointer;transition:color .25s,background .25s;
+}
+.admin-submit-btn:hover{background:var(--blue);color:#000}
+.admin-submit-btn:disabled{opacity:.4;cursor:not-allowed}
+.admin-status{font-size:10px;letter-spacing:1px;color:var(--gray)}
+.admin-status.ok{color:#7be58a}
+.admin-status.err{color:#ff8080}
+
+.admin-existing{margin-top:50px;display:flex;flex-direction:column;gap:10px}
+.admin-existing-title{font-size:11px;color:var(--blue2);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.admin-news-item{
+  display:flex;align-items:center;gap:14px;
+  border:1px solid var(--border2);background:var(--bg3);padding:10px 14px;
+}
+.admin-news-item img{width:48px;height:48px;object-fit:cover;flex-shrink:0;background:#000}
+.admin-news-item-info{flex:1;min-width:0}
+.admin-news-item-title{font-size:12px;color:var(--white);letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-news-item-date{font-size:9px;color:var(--gray);letter-spacing:1px}
+.admin-del-btn{
+  background:transparent;border:1px solid var(--border2);color:#ff8080;
+  font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:8px 12px;cursor:pointer;
+  flex-shrink:0;
+}
+.admin-del-btn:hover{border-color:#ff5555;background:rgba(255,85,85,.1)}
 </style>
 </head>
 <body>
@@ -655,7 +818,8 @@ nav{animation:navIn .6s ease both}
     <p class="news-page-sub">Новости сервера</p>
   </div>
         <div class="news-list">
-    <div class="news-card latest">
+    <div id="dynamic-news-list"></div>
+    <div class="news-card latest" id="legacy-latest-card">
       <div class="news-card-img" style="width:260px;flex-shrink:0;min-height:160px;overflow:hidden;padding:0"><img src="2026-05-20_20.09.49.png" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       <div class="news-card-body">
         <div class="news-date">
@@ -845,6 +1009,247 @@ function animCursor(){
   requestAnimationFrame(animCursor);
 }
 animCursor();
+
+/* ====================================================================
+   НОВОСТИ ЧЕРЕЗ FIREBASE — загрузка, отрисовка, админ-панель
+   ==================================================================== */
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function bodyToParagraphs(text){
+  return text.split(/\n\s*\n/).map(p=>`<p>${escapeHtml(p).replace(/\n/g,'<br>')}</p>`).join('');
+}
+function makeExcerpt(text){
+  const flat = text.replace(/\s+/g,' ').trim();
+  return flat.length>180 ? flat.slice(0,180).trim()+'…' : flat;
+}
+
+let dynNewsCache = {}; // id -> data, чтобы открывать модалку без повторного похода в Firebase
+
+function renderDynamicNews(snapshot){
+  const list = document.getElementById('dynamic-news-list');
+  const legacyLatest = document.getElementById('legacy-latest-card');
+  if(!list) return;
+  list.innerHTML = '';
+  dynNewsCache = {};
+  let i = 0;
+  snapshot.forEach(doc=>{
+    const d = doc.data();
+    dynNewsCache[doc.id] = d;
+    const isFirst = (i===0);
+    if(isFirst && legacyLatest) legacyLatest.classList.remove('latest'); // самая свежая теперь — из Firebase
+    const imgBlock = d.imageUrl
+      ? `<div class="news-card-img" style="width:260px;flex-shrink:0;min-height:160px;overflow:hidden;padding:0"><img src="${escapeHtml(d.imageUrl)}" style="width:100%;height:100%;object-fit:cover;display:block"></div>`
+      : '';
+    const card = document.createElement('div');
+    card.className = 'news-card' + (isFirst ? ' latest' : '');
+    card.innerHTML = `
+      ${imgBlock}
+      <div class="news-card-body">
+        <div class="news-date">${escapeHtml(d.date||'')}${isFirst ? ' • ПОСЛЕДНЕЕ' : ''}</div>
+        <div class="news-title">${escapeHtml(d.title||'')}</div>
+        <div class="news-excerpt">${escapeHtml(makeExcerpt(d.body||''))}</div>
+        <button class="read-more-btn" onclick="openDynamicModal('${doc.id}')"><span>Читать подробнее →</span></button>
+      </div>`;
+    list.appendChild(card);
+    i++;
+  });
+  if(typeof obs !== 'undefined'){
+    list.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger').forEach(el=>obs.observe(el));
+  }
+  renderAdminExistingList(snapshot);
+}
+
+function openDynamicModal(id){
+  const d = dynNewsCache[id];
+  if(!d) return;
+  document.getElementById('dyn-modal-title').textContent = d.title || '';
+  document.getElementById('dyn-modal-date').textContent = '💡 ' + (d.date || '');
+  document.getElementById('dyn-modal-body').innerHTML = bodyToParagraphs(d.body || '');
+  const img = document.getElementById('dyn-modal-img');
+  if(d.imageUrl){ img.src = d.imageUrl; img.style.display = 'block'; }
+  else { img.style.display = 'none'; }
+  openModal('modalDynamic');
+}
+
+function loadNewsFromFirebase(){
+  if(!fbReady) return;
+  fbDb.collection('news').orderBy('createdAt','desc').onSnapshot(renderDynamicNews, err=>{
+    console.error('Firebase news error:', err);
+  });
+}
+
+async function loginAdmin(e){
+  e.preventDefault();
+  const btn = document.getElementById('login-submit-btn');
+  const errEl = document.getElementById('login-error');
+  errEl.textContent = '';
+  if(!fbReady){
+    errEl.textContent = 'Firebase не настроен — вставь firebaseConfig в <head>.';
+    return;
+  }
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  btn.disabled = true;
+  try{
+    await fbAuth.signInWithEmailAndPassword(email, password);
+    document.getElementById('login-form').reset();
+  }catch(err){
+    errEl.textContent = 'Не получилось войти: ' + (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' ? 'неверный email или пароль' : err.message);
+  }finally{
+    btn.disabled = false;
+  }
+}
+function logoutAdmin(){
+  if(fbReady) fbAuth.signOut();
+}
+function renderAdminAuthState(user){
+  const loginBlock = document.getElementById('admin-login-block');
+  const allowedBlock = document.getElementById('admin-allowed-block');
+  if(!loginBlock || !allowedBlock) return;
+  if(user){
+    loginBlock.style.display = 'none';
+    allowedBlock.style.display = 'block';
+    document.getElementById('admin-whoami').textContent = 'Вошли как ' + user.email;
+  } else {
+    loginBlock.style.display = 'block';
+    allowedBlock.style.display = 'none';
+  }
+}
+
+function renderAdminExistingList(snapshot){
+  const wrap = document.getElementById('admin-existing-list');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  snapshot.forEach(doc=>{
+    const d = doc.data();
+    const item = document.createElement('div');
+    item.className = 'admin-news-item';
+    item.innerHTML = `
+      ${d.imageUrl ? `<img src="${escapeHtml(d.imageUrl)}">` : ''}
+      <div class="admin-news-item-info">
+        <div class="admin-news-item-title">${escapeHtml(d.title||'')}</div>
+        <div class="admin-news-item-date">${escapeHtml(d.date||'')}</div>
+      </div>
+      <button class="admin-del-btn" onclick="deleteNews('${doc.id}')">Удалить</button>`;
+    wrap.appendChild(item);
+  });
+}
+
+async function deleteNews(id){
+  if(!fbReady) return;
+  if(!confirm('Удалить эту новость?')) return;
+  try{
+    await fbDb.collection('news').doc(id).delete();
+  }catch(e){
+    alert('Ошибка удаления: ' + e.message);
+  }
+}
+
+async function submitNews(e){
+  e.preventDefault();
+  if(!fbReady){
+    document.getElementById('news-status').textContent = 'Firebase не настроен — вставь firebaseConfig в <head>.';
+    document.getElementById('news-status').className = 'admin-status err';
+    return;
+  }
+  const btn = document.getElementById('news-submit-btn');
+  const status = document.getElementById('news-status');
+  const title = document.getElementById('news-title').value.trim();
+  const date = document.getElementById('news-date').value.trim();
+  const body = document.getElementById('news-body').value.trim();
+  const imageUrl = document.getElementById('news-image-url').value.trim() || null;
+
+  btn.disabled = true;
+  status.className = 'admin-status';
+  status.textContent = 'Публикуем...';
+
+  try{
+    await fbDb.collection('news').add({
+      title, date, body,
+      imageUrl,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    status.className = 'admin-status ok';
+    status.textContent = 'Опубликовано!';
+    document.getElementById('news-form').reset();
+  }catch(err){
+    status.className = 'admin-status err';
+    status.textContent = 'Ошибка: ' + err.message;
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+function checkAdminHash(){
+  if(location.hash === '#admin'){
+    showPage('admin');
+  }
+}
+window.addEventListener('hashchange', checkAdminHash);
+checkAdminHash();
+
+if(fbReady){
+  fbAuth.onAuthStateChanged(renderAdminAuthState);
+} else {
+  renderAdminAuthState(null);
+}
+
+loadNewsFromFirebase();
+
+function initSwordCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas || typeof THREE === 'undefined') return;
+
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setPixelRatio(window.devicePixelRatio || 1);
+  renderer.setSize(canvas.width, canvas.height, false);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(35, canvas.width/canvas.height, 0.1, 100);
+  camera.position.set(0, 0, 6);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+  const dir1 = new THREE.DirectionalLight(0xffffff, 0.9);
+  dir1.position.set(3, 4, 5);
+  scene.add(dir1);
+  const dir2 = new THREE.DirectionalLight(0x55d4ff, 0.4);
+  dir2.position.set(-3, -2, -4);
+  scene.add(dir2);
+
+  let swordGroup = null;
+
+  const mtlLoader = new THREE.MTLLoader();
+  mtlLoader.load('diamond-sword.mtl', materials=>{
+    materials.preload();
+    const objLoader = new THREE.OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('diamond-sword.obj', obj=>{
+      const box = new THREE.Box3().setFromObject(obj);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      const center = new THREE.Vector3();
+      box.getCenter(center);
+      obj.position.sub(center);
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale = 3.2 / maxDim;
+      obj.scale.setScalar(scale);
+
+      swordGroup = new THREE.Group();
+      swordGroup.add(obj);
+      swordGroup.rotation.z = Math.PI / 10;
+      scene.add(swordGroup);
+    });
+  });
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if(swordGroup) swordGroup.rotation.y += 0.012;
+    renderer.render(scene, camera);
+  }
+  animate();
+}
+initSwordCanvas('sword-canvas-1');
 </script>
 
 
@@ -853,9 +1258,51 @@ animCursor();
     <h1 class="medals-page-title">Медали</h1>
     <p class="medals-page-sub">Достижения игроков</p>
   </div>
-  <div class="medals-empty">
-    <div class="medals-empty-icon">🏅</div>
-    <div class="medals-empty-text">Здесь пока что ничего нет(</div>
+  <div class="medals-wrap">
+
+    <article class="medal-card">
+
+      <div class="medal-sword" title="Алмазный меч">
+        <canvas id="sword-canvas-1" width="140" height="150"></canvas>
+      </div>
+
+      <div class="medal-core">
+        <div class="medal-badge">
+          <svg viewBox="0 0 64 84" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="rb" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#55d4ff"/><stop offset="1" stop-color="#1a8cad"/>
+              </linearGradient>
+              <radialGradient id="gold" cx="38%" cy="32%" r="70%">
+                <stop offset="0" stop-color="#ffe9a8"/><stop offset="45%" stop-color="#ffb733"/><stop offset="100%" stop-color="#c97e16"/>
+              </radialGradient>
+            </defs>
+            <polygon points="18,0 30,0 30,40 24,34 18,40" fill="url(#rb)"/>
+            <polygon points="34,0 46,0 46,40 40,34 34,40" fill="url(#rb)" opacity="0.8"/>
+            <circle cx="32" cy="54" r="26" fill="url(#gold)" stroke="#8a5510" stroke-width="2"/>
+            <circle cx="32" cy="54" r="20" fill="none" stroke="#ffe9a8" stroke-width="1.5" opacity="0.7"/>
+            <polygon points="32,40 36,50 47,50 38,57 41,68 32,61 23,68 26,57 17,50 28,50" fill="#fff4cf" stroke="#c97e16" stroke-width="1"/>
+            <ellipse cx="24" cy="46" rx="6" ry="3" fill="#fff" opacity="0.35"/>
+          </svg>
+        </div>
+        <div class="medal-info">
+          <div class="medal-nick">тест</div>
+          <div class="medal-award">тест</div>
+          <div class="medal-fields">
+            <div class="medal-field"><span>Ник игрока</span><b>тест</b></div>
+            <div class="medal-field"><span>За что</span><b>тест</b></div>
+            <div class="medal-field"><span>Дата</span><b>тест</b></div>
+            <div class="medal-field"><span>Уровень</span><b>тест</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="medal-skin">
+        <img class="skin-gif" src="skin-spin.webp" alt="скин игрока">
+        <div class="skin-label">СКИН ИГРОКА</div>
+      </div>
+
+    </article>
   </div>
   <footer>
     <div class="footer-logo">БилдЛэнд</div>
@@ -868,6 +1315,76 @@ animCursor();
   </footer>
 </div>
 
+<div class="modal-overlay" id="modalDynamic" onclick="closeModalOutside(event,'modalDynamic')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="dyn-modal-title"></div>
+      <button class="modal-close" onclick="closeModal('modalDynamic')">✕</button>
+    </div>
+    <img class="modal-img" id="dyn-modal-img" src="" alt="" style="display:none">
+    <div class="modal-date" id="dyn-modal-date"></div>
+    <div class="modal-body" id="dyn-modal-body"></div>
+  </div>
+</div>
+
+<div id="admin-page" class="page-wrap" style="display:none">
+  <div class="admin-wrap">
+
+    <div id="admin-login-block" style="display:none">
+      <h1 class="admin-title">Админ-панель</h1>
+      <p class="admin-sub">Вход по email и паролю</p>
+      <form class="admin-login" id="login-form" onsubmit="loginAdmin(event)">
+        <div class="admin-login-title">🔒 Вход</div>
+        <div class="admin-field">
+          <label>Email</label>
+          <input type="email" id="login-email" placeholder="you@example.com" required>
+        </div>
+        <div class="admin-field">
+          <label>Пароль</label>
+          <input type="password" id="login-password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="admin-submit-btn" id="login-submit-btn"><span>Войти</span></button>
+        <div class="admin-login-error" id="login-error"></div>
+      </form>
+    </div>
+
+    <div id="admin-allowed-block" style="display:none">
+      <div class="admin-topbar">
+        <div>
+          <h1 class="admin-title" style="margin-bottom:2px">Админ-панель</h1>
+          <p class="admin-sub" style="margin-bottom:0" id="admin-whoami"></p>
+        </div>
+        <button class="admin-logout-btn" onclick="logoutAdmin()">Выйти</button>
+      </div>
+
+      <form class="admin-form" id="news-form" onsubmit="submitNews(event)">
+        <div class="admin-field">
+          <label>Заголовок (можно с эмодзи)</label>
+          <input type="text" id="news-title" placeholder="🚪 Открытая дверь" required>
+        </div>
+        <div class="admin-field">
+          <label>Дата</label>
+          <input type="text" id="news-date" placeholder="30.06.2026" required>
+        </div>
+        <div class="admin-field">
+          <label>Текст новости</label>
+          <textarea id="news-body" rows="8" placeholder="Полный текст новости. Можно делать абзацы пустой строкой." required></textarea>
+        </div>
+        <div class="admin-field">
+          <label>Ссылка на фото (необязательно)</label>
+          <input type="text" id="news-image-url" placeholder="https://i.imgur.com/xxxxx.png">
+        </div>
+        <button type="submit" class="admin-submit-btn" id="news-submit-btn"><span>Опубликовать</span></button>
+        <div class="admin-status" id="news-status"></div>
+      </form>
+
+      <div class="admin-existing">
+        <div class="admin-existing-title">Опубликованные новости</div>
+        <div id="admin-existing-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal-overlay" id="modal4" onclick="closeModalOutside(event,'modal4')">
   <div class="modal-box">
     <div class="modal-header">
